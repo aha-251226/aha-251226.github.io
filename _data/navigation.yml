@@ -1,0 +1,21 @@
+main:
+  - title: "Home"
+    url: /
+
+  - title: "Papers"
+    url: /papers/
+
+  - title: "Projects"
+    url: /projects/
+
+  - title: "Patents"
+    url: /patents/
+
+  - title: "Proceedings"
+    url: /proceedings/
+
+  - title: "Education"
+    url: /education/
+
+  - title: "Industry"
+    url: /industry/
