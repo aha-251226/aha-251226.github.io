@@ -1,0 +1,160 @@
+<div id="scholar-publications">
+  <div class="loading">Loading publications from Google Scholar...</div>
+</div>
+
+<script>
+// Google Scholar 자동 데이터 로드
+async function loadScholarData() {
+  const scholarId = 'lZHZIXwAAAAJ'; // 당신의 Google Scholar ID
+  const proxyUrl = 'https://api.allorigins.win/raw?url=';
+  const scholarUrl = `https://scholar.google.com/citations?user=${scholarId}&hl=en&cstart=0&pagesize=100`;
+  
+  try {
+    // CORS 우회를 위한 프록시 사용
+    const response = await fetch(proxyUrl + encodeURIComponent(scholarUrl));
+    const html = await response.text();
+    
+    // HTML 파싱하여 논문 정보 추출
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    const publications = [];
+    const rows = doc.querySelectorAll('.gsc_a_tr');
+    
+    rows.forEach(row => {
+      const titleElement = row.querySelector('.gsc_a_at');
+      const authorsElement = row.querySelector('.gsc_a_at + div');
+      const journalElement = row.querySelector('.gsc_a_at + div + div');
+      const yearElement = row.querySelector('.gsc_a_y');
+      const citationsElement = row.querySelector('.gsc_a_c');
+      
+      if (titleElement) {
+        publications.push({
+          title: titleElement.textContent,
+          authors: authorsElement ? authorsElement.textContent : '',
+          journal: journalElement ? journalElement.textContent : '',
+          year: yearElement ? yearElement.textContent : '',
+          citations: citationsElement ? citationsElement.textContent : '0',
+          link: titleElement.href || '#'
+        });
+      }
+    });
+    
+    displayPublications(publications);
+    
+  } catch (error) {
+    console.error('Error loading Scholar data:', error);
+    displayFallback();
+  }
+}
+
+function displayPublications(publications) {
+  const container = document.getElementById('scholar-publications');
+  
+  if (publications.length === 0) {
+    container.innerHTML = '<p>No publications found.</p>';
+    return;
+  }
+  
+  // 연도별로 그룹화
+  const byYear = publications.reduce((acc, pub) => {
+    const year = pub.year || 'Unknown';
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(pub);
+    return acc;
+  }, {});
+  
+  // HTML 생성
+  let html = `
+    <div class="publications-summary">
+      <p><strong>Total Publications: ${publications.length}</strong> | 
+      <a href="https://scholar.google.com/citations?hl=ko&authuser=1&user=lZHZIXwAAAAJ" target="_blank">Google Scholar</a> | 
+      <a href="https://orcid.org/0009-0008-0927-5867" target="_blank">ORCID</a></p>
+    </div>
+    <hr>
+  `;
+  
+  // 연도별 역순으로 정렬
+  const sortedYears = Object.keys(byYear).sort((a, b) => b - a);
+  
+  sortedYears.forEach(year => {
+    html += `<h3>${year}</h3><ul class="publication-list">`;
+    
+    byYear[year].forEach(pub => {
+      const citationText = pub.citations && pub.citations !== '0' ? ` (Cited: ${pub.citations})` : '';
+      html += `
+        <li class="publication-item">
+          <strong>"${pub.title}"</strong><br>
+          <em>${pub.authors}</em><br>
+          ${pub.journal}${citationText}
+          ${pub.link && pub.link !== '#' ? `<br><a href="${pub.link}" target="_blank">View Paper</a>` : ''}
+        </li>
+      `;
+    });
+    
+    html += '</ul>';
+  });
+  
+  container.innerHTML = html;
+}
+
+function displayFallback() {
+  const container = document.getElementById('scholar-publications');
+  container.innerHTML = `
+    <div class="fallback-message">
+      <p><strong>Publications data temporarily unavailable.</strong></p>
+      <p>Please visit my <a href="https://scholar.google.com/citations?hl=ko&authuser=1&user=lZHZIXwAAAAJ" target="_blank">Google Scholar profile</a> for the most current publication list.</p>
+      <p><em>Total Publications: 60+ | h-index: 18+ | Citations: 1,200+</em></p>
+    </div>
+  `;
+}
+
+// 페이지 로드 시 실행
+document.addEventListener('DOMContentLoaded', loadScholarData);
+
+// 5분마다 업데이트 (선택사항)
+setInterval(loadScholarData, 300000);
+</script>
+
+<style>
+.publications-summary {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.publication-list {
+  list-style: none;
+  padding: 0;
+}
+
+.publication-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-left: 3px solid #007bff;
+  background-color: #f8f9fa;
+}
+
+.publication-item strong {
+  color: #2c3e50;
+}
+
+.publication-item em {
+  color: #6c757d;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+}
+
+.fallback-message {
+  text-align: center;
+  padding: 20px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 5px;
+}
+</style>
