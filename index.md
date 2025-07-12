@@ -3,26 +3,23 @@ layout: home
 title: "AHA's Research Portfolio"
 ---
 
-# Welcome to AHA's Research Portfolio
+## 👋 Welcome
 
-## BIM & AI Convergence Research  
-**Pioneering the future of intelligent building technologies**
-
-I specialize in integrating **Building Information Modeling (BIM)** with **Artificial Intelligence** to revolutionize facility management and construction processes.  
-My research focuses on creating automated, intelligent systems that bridge the gap between traditional engineering and cutting-edge AI technologies.
+I specialize in integrating **Building Information Modeling (BIM)** with **Artificial Intelligence (AI)**  
+to revolutionize facility management and construction processes.
 
 ---
 
-### 🏗️ **Core Expertise**
+## 🏗️ Core Expertise
 
-- **Automated Rule-Based BIM Checking Systems**  
-- **Large Multimodal Models (LMM) in Construction**  
-- **Intelligent Facility Management Solutions**  
-- **Construction IT Integration**
+- Automated Rule-Based BIM Checking Systems  
+- Large Multimodal Models (LMM) in Construction  
+- Intelligent Facility Management Solutions  
+- Construction IT Integration
 
 ---
 
-### 🚀 **Current Research Highlights**
+## 🚀 Current Research Highlights
 
 - Developing LMM applications for visual building inspection  
 - Creating automated BIM model verification frameworks  
@@ -30,10 +27,10 @@ My research focuses on creating automated, intelligent systems that bridge the g
 
 ---
 
-### 📊 **Research Impact**
+## 📊 Research Impact
 
 Bridging academic innovation with industry application  
-to create practical solutions for the Architecture, Engineering, and Construction (AEC) industry.
+to create practical solutions for the AEC industry.
 
 ---
 
