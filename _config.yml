@@ -150,13 +150,6 @@ collections:
   projects:
     output: true
 
-defaults:
-  - scope:
-      path: ""
-      type: news
-    values:
-      layout: post
-
 # -----------------------------------------------------------------------------
 # Jekyll settings
 # -----------------------------------------------------------------------------
